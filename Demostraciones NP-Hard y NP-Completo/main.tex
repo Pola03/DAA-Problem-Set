@@ -27,9 +27,8 @@
 \usepackage{setspace}
 \usepackage{tocbibind}
 
-\title{Title}
-\author{Your Name}
-\date{\today}
+\title{Demostraciones de problemas NP-Completos y NP-Hard}
+\author{Paula Silva Lara}
 
 \begin{document}
 
@@ -48,7 +47,7 @@ Dada una instancia del problema, es posible verificar si es una solución es cor
 Dado un problema NP-Hard conocido B, si B es reducible a C, entonces C es NP-Hard.
 \end{itemize}
 
-Ninguno de los problemas planteados a continuación son NP, ya que son problemas de minimizar, y comprobar que un conjunto \(S\) de tamaño \(k\) que cumple con una propiedad \(P\) es mínimo, requiere buscar conjuntos de tamaño menor que  \(k\), y esto es exponencial.
+Ninguno de los problemas planteados a continuación son \(NP\), ya que son problemas de optimización, de minimizar y maximizar, y comprobar que un conjunto \(S\) de tamaño \(k\) que cumple con una propiedad \(P\) es mínimo o máximo, requiere buscar conjuntos de tamaño menor o mayor respectivamente que  \(k\), y esto es exponencial.
 
 \section{Retroalimentación de arcos}
 
@@ -87,7 +86,7 @@ Existe una cobertura de vértices en \( G \) de tamaño \(k\) \(\iff\) existe un
 
 \begin{itemize}
     \item \(\Leftarrow\) 
-    Sea \(S'\) un conjunto de retroalimentación de arcos de \(G'\) de tamaño \(k\), si \(\exists e \in S' \text{ tal que } e \text{ no es una arista }  (v,v') \text{ entonces e es una arista de la forma}  (v',u) \). Si \( e\) es una arista \((v',u)\), como \(e \in S'\), abarca todos los ciclos \( [v',u,...,v']\). Todos los caminos \( u \rightarrow v'\) pasan por \(v\), ya que el único arco incidente en \(v'\) es \(v\). Por tanto si sustituimos \((v',u)\) por \((v,v')\), se abarcan los mismos ciclos de G'. Por tanto, es posible crear un nuevo conjunto \(S'\) de tamaño \(k\) formado solamente por arcos de la forma \((v,v')\). Dado el nuevo conjunto \(S'\), como \(S'\) abarca todos los ciclos, también abarca los ciclos \(c\) de la forma \(c = [v,v',u,u',v]\) en \(G'\). A cada ciclo \(c\) en \(G'\) se le asocia una arista \(<u,v> \in E\) y viceversa. Como por cada ciclo \(c\) \text{se cumple que} \((v,v') \in S' \text{ o } (u,u') \in S'\), entonces es posible crear un conjunto \(S\) formado por los vértices de \(V\) correspondientes a las aristas de \(S'\), el cual abarca todas las aristas de \(G\), por tanto, \(S'\) es una cobertura de vértices de \(G\).
+    Sea \(S'\) un conjunto de retroalimentación de arcos de \(G'\) de tamaño \(k\), si \(\exists e \in S'\) tal que \(e\) no es una arista  \((v,v')\) entonces e es una arista de la forma \((v',u) \). Si \( e\) es una arista \((v',u)\), como \(e \in S'\), abarca todos los ciclos \( [v',u,...,v']\). Todos los caminos \( u \rightarrow v'\) pasan por \(v\), ya que el único arco incidente en \(v'\) es \(v\). Por tanto si sustituimos \((v',u)\) por \((v,v')\), se abarcan los mismos ciclos de G'. Por tanto, es posible crear un nuevo conjunto \(S'\) de tamaño \(k\) formado solamente por arcos de la forma \((v,v')\). Dado el nuevo conjunto \(S'\), como \(S'\) abarca todos los ciclos, también abarca los ciclos \(c\) de la forma \(c = [v,v',u,u',v]\) en \(G'\). A cada ciclo \(c\) en \(G'\) se le asocia una arista \(<u,v> \in E\) y viceversa. Como por cada ciclo \(c\) \text{se cumple que} \((v,v') \in S' \text{ o } (u,u') \in S'\), entonces es posible crear un conjunto \(S\) formado por los vértices de \(V\) correspondientes a las aristas de \(S'\), el cual abarca todas las aristas de \(G\), por tanto, \(S'\) es una cobertura de vértices de \(G\).
     
 
     \item \(\Rightarrow\) 
@@ -283,6 +282,102 @@ Existe conjunto dominante de tamaño mínimo en \(G\) \(\iff\) existe un conjunt
     Si existe un conjunto dominante de tamaño mínimo \(l\), al agregar \(k-l\) vértices al conjunto, este va a seguir cumpliendo que es un conjunto dominante.
 \end{itemize}
 
+
+
+\section{Clique de tamaño máximo}
+
+    \subsection{Definición del problema}
+    Un clique es un subgrafo completo dentro de un grafo. Formalmente, un clique en un grafo $G=(V,E)$ es un subconjunto de vértices $C \subseteq V$, tal que todos los pares de vértices en $C$ están conectados directamente por una arista. En otras palabras, todos los vértices del clique están mutuamente conectados.
+
+    \textbf{Problema de Optimización}:
+    
+    Hallar el clique de mayor tamaño en un grafo.
+    
+
+\subsection{Demostrar que es NP-Hard}
+Reducir \texttt{Clique de tamaño \(k\)} a \texttt{Máximo clique}:
+
+La entrada del problema Clique de tamaño \(k\) es un grafo no dirigido $G=(V,E)$. Dado $G=(V,E)$, creamos un grafo no dirigido $G'=(V',E')$, tal que:
+\begin{itemize}
+    \item \(V' = V \)
+    \item \(E' = E \)
+\end{itemize}
+Este es la entrada al problema de Máximo clique. 
+
+
+\textbf{Correctitud}
+
+Existe un clique de tamaño en \( G \) de tamaño \(k\) \(\iff\) existe clique máximo en \( G' \).
+
+\begin{itemize}
+
+\item \(\Leftarrow\)
+Sea \(S\) el conjunto de vértices que forman el clique máximo de longitud \(q\) en \(G'\). Si \( q \geq k\), entonces al quitar \(q-k\) vértices cualesquieras de \(S\), como entre todos los vértices restantes existían aristas, los vértices restantes forman un clique de tamaño \(k\) en \(G\). Si \(q < k\), entonces no existe un clique de tamaño \(k\) en \(G\).
+
+\item \(\Rightarrow\) 
+
+\end{itemize}
+
+\section{Número Domatic}
+
+    \subsection{Definición del problema}
+    El número de domatic de un grafo $G$, denotado como $domatic(G)$, es el número máximo $k$ tal que los vértices de $G$ pueden dividirse en $k$ conjuntos disjuntos $D_1,D_2,…,D_k$ donde cada $D_i$​ es dominante.
+
+Hallar el número de Domatic de un grafo..
+
+
+    \textbf{Problema de Optimización}:
+    
+    El objetivo del problema es demostrar que el número domático de \(G\) es  \(k\).
+
+    \textbf{Problema de Decisión}:
+    
+    El objetivo del problema es demostrar que el número domático de \(G\) es  \(\geq k\).
+    
+
+\subsection{Demostrar que es NP-Hard}
+Reducir \texttt{3-SAT} a \texttt{Número Domatic}:
+
+Sea $\phi: C_1 \wedge C_2 \wedge \dotsc C_m$ una instancia de 3-SAT con \(n\) variables \(x_1,\dotsc,x_n\). Creemos un grafo \(G = (V,E)\) tal que por cada cláusula \(C_i \in \{C_1,\dotsc,C_m\}\) exista un vértice \(vc_i\), y por cada variable \(x_j \in \{x_1,\dotsc,x_n\}\) existan tres vértices \(a_j, b_j,\text{ y }  c_j\). Estos tres vértices  \(a_j, b_j, \text{ y } c_j\) forman un triángulo.
+
+El vértice \(a_j\) corresponde al literal positivo \(x_j\) y el vértice \(b_j\) al literal negativo \(\bar{x_j}\). Hay una arista entre los vértices \(vc_i\) y \(a_j\) si y solo si \(x_j\) aparece en la cláusula \(C_i\).
+De igual forma, hay una arista entre \(vc_i\) y \(b_j\) si y solo si \(\bar x_j\) aparece en la cláusula \(C_i\). Además, hay un vértice \(r\) que tiene un camino \([r,s_i,vc_i]\) por cada \(i \in \{1,\dotsc,m\}\). También  creamos una arista de \(r\) a \(a_j\) y \(b_j\) por cada \(j \in \{1,\dotsc,n\}\).
+
+Este es la entrada de Número Domatic..
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/Domatic_number.png}
+    \caption{Ejemplo de \(G\)}
+    \label{fig:foto_carpeta}
+\end{figure}
+
+
+
+\textbf{Correctitud}
+
+ \(\phi\) es satisfacible \(\iff\) \(G\) tiene número domático de al menos \(3\).
+
+\begin{itemize}
+
+\item \(\Leftarrow\)
+Si el grafo \(G\) tiene número domático al menos 3, este número no puedo ser mayor que 3, ya que el grado de \(c_i\) es 2, por lo que los \(c_i\) solo puede ser dominado por tres conjuntos como máximo.
+Sean \(V_1, V_2, V3 \subseteq V\) una partición de los vértices de \(V\) tal que cada conjunto de vértices es un conjunto dominante. Sin pérdida de generalidad, asumamos que que \(r \in V_1\). Entonces hay dos posibilidades:
+
+\((1)$ $vc_i \in V_2$ and $s_i \in V_3\)
+
+\((2)$ $vc_i \in V_3$ and $s_i \in V_2$ \)
+
+En caso contrario, \(s_i\) no puede ser dominado por uno de los conjuntos \(V_2\) o \(V_3\), ya que \(s_i\) solo es adyacente a \(r\) y a \(vc_i\).
+Sin pérdida de generalidad, analicemos la posibilidad 1. \(vc_i\) debe ser dominado por algún vértice en \(V_1\). Por lo tanto, al menos uno de los \(a_j/b_j\) que son adyacentes a \(vc_i\) debe estar en \(V_1\). Notemos que para cualquier \(j\), \(a_j\) y \(b_j\) no pueden estar en \(V_1\) a la vez, pues ser así uno de los dos no podría ser dominado por \(V_2\) o \(V_1\). Por tanto, \(V_1 \cap \{a_1,\dotsc,a_n,b_1,\dotsc,b_n\}\) es una asignación válida de variables que satisface \(\phi\).
+
+\item \(\Rightarrow\)
+Si \(\phi\) es satisfacible, sin pérdida de generalidad, digamos que las variables que toman valor True son \(x_1,\dotsc,x_k\) y las restantes \(x_{k+1},\dotsc,x_n\) son False. Demostremos que \(G\) tiene número domático \(3\). El conjunto de vértices \(V\) puede ser particionado en tres conjuntos \(V_1 = \{ a_1,\dotsc,a_k,b_{k+1},\dotsc,b_n\} \cup \{r\}$, $V_2 = \{ b_1,\dotsc,b_k,a_{k+1},\dotsc,a_n,vc_{1},\dotsc,vc_m\}$, y $V_3 = \{c_1,\dotsc,c_n, s_1,\dotsc,s_m\}\). Cada uno de estos conjuntos de vértices es un conjunto dominante del grafo \(G\).
+
+
+
+\end{itemize}
 
 
 \end{document}
